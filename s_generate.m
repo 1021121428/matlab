@@ -1,8 +1,8 @@
 clc
 clear
 
-px = 3; %每个周期单元的长度
-py = 3;
+px = 30; %每个周期单元的长度
+py = 30;
 % total = zeros(px, py, 512);
 % matrix = matrix_generate(px, py);
 % a = 1;
@@ -23,15 +23,19 @@ py = 3;
 %     mfilename = ['C:\Users\Antlab\Desktop\hjj\m\', num2str(i), '-m.txt'];
 %     save(mfilename, 'temp_matrix', '-ascii');
 % end
-for epoch = 1: 512
 
-tmp_path = ['C:\Users\Antlab\Desktop\hjj\m\', num2str(epoch), '-m.txt'];
+for epoch = 4402: 10000
+
+tmp_path = ['I:\git_j\torch\data\meta\', num2str(epoch), '-data.txt'];
 temp_matrix = load(tmp_path);
+% temp_matrix = [0, 0, 1;
+%     0, 1, 1;
+%     0, 0, 0];
 
-a=1;   %上层贴片的长
-b=1;   %上层贴片的宽
-t=1;   %介质基板的厚度；
-Frq=[1, 30]; %工作频带的频率
+a=0.15;   %上层贴片的长
+b=0.15;   %上层贴片的宽
+t=0.6;   %介质基板的厚度；
+Frq=[2, 10]; %工作频带的频率
 
 %% CST文件初始化
 cst = actxserver('CSTStudio.application');%首先载入CST应用控件
@@ -40,7 +44,7 @@ app = invoke(mws, 'GetApplicationName');%获取当前应用名称
 ver = invoke(mws, 'GetApplicationVersion');%获取当前应用版本号
 invoke(mws, 'FileNew');%新建一个CST文件
 path=pwd;%获取当前m文件夹路径
-filename='\metamaterialabsorber.cst';%新建的CST文件名字
+filename='\metamaterialabsorber-1.cst';%新建的CST文件名字
 % filename = ['\', num2str(epoch), '.cst'];
 fullname=[path filename];
 invoke(mws, 'SaveAs', fullname, 'True');%True表示保存到目前为止的结果
@@ -204,11 +208,11 @@ invoke(mws,'Quit');
 release(mws); 
 release(cst);
 sfilename = ['C:\Users\Antlab\Desktop\hjj\s11\', num2str(epoch), '-s11.txt'];
-% mfilename = ['C:\Users\Antlab\Desktop\hjj\m\', num2str(epoch), '-m.txt'];
+mfilename = ['C:\Users\Antlab\Desktop\hjj\m\', num2str(epoch), '-m.txt'];
 sfilename2 = ['C:\Users\Antlab\Desktop\hjj\s21\', num2str(epoch), '-s21.txt'];
 save(sfilename, 'A', '-ascii');
 save(sfilename2, 'B', '-ascii');
-% save(mfilename, 'temp_matrix', '-ascii');
+save(mfilename, 'temp_matrix', '-ascii');
 disp('-------------------------------------------')
 disp(epoch)
 pause(2)
